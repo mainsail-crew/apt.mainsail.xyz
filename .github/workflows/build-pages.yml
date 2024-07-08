@@ -72,7 +72,7 @@ jobs:
           for dist in $DISTS; do
             apt-ftparchive -c $dist.conf release $repo/$dist > $repo/$dist/Release
             gpg --default-key "apt@mainsail.xyz" -abs -o - $repo/$dist/Release > $repo/$dist/Release.gpg
-            gpg --default-key "apt@mainsail-xyz" --clearsign -o - $repo/$dist/Release > $repo/$dist/InRelease
+            gpg --default-key "apt@mainsail.xyz" --clearsign -o - $repo/$dist/Release > $repo/$dist/InRelease
           done
 
           tree public
