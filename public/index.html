@@ -13,11 +13,19 @@
 
 <h2>Usage</h2>
 
-<h3>RaspberryPi OS/MainsailOS</h3>
+<h3>RaspberryPi OS/MainsailOS - Bullseye</h3>
 
 <code>
     curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/mainsail.gpg > /dev/null<br>
     sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-bullseye-rpi.list"<br>
+    sudo apt update<br>
+</code>
+
+<h3>RaspberryPi OS/MainsailOS - Bookworm</h3>
+
+<code>
+    curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/mainsail.gpg > /dev/null<br>
+    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-bookworm-rpi.list"<br>
     sudo apt update<br>
 </code>
 
