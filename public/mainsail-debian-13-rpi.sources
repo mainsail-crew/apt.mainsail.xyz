@@ -1,0 +1,5 @@
+Types: deb
+URIs: https://apt.mainsail.xyz/debian/
+Suites: trixie
+Components: rpi
+Signed-By: /usr/share/keyrings/mainsail.gpg

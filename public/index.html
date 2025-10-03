@@ -24,8 +24,16 @@
 <h3>RaspberryPi OS/MainsailOS - Bookworm</h3>
 
 <code>
-    curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/mainsail.gpg > /dev/null<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-bookworm-rpi.list"<br>
+    curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /usr/share/keyrings/mainsail.gpg > /dev/null<br>
+    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-12-rpi.sources"<br>
+    sudo apt update<br>
+</code>
+
+<h3>RaspberryPi OS/MainsailOS - Trixie</h3>
+
+<code>
+    curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /usr/share/keyrings/mainsail.gpg > /dev/null<br>
+    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-13-rpi.sources"<br>
     sudo apt update<br>
 </code>
 
