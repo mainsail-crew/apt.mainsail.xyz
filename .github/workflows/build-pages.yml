@@ -50,7 +50,7 @@ jobs:
 
       - name: Generate repository files
         env:
-          DISTS: bullseye bookworm
+          DISTS: bullseye bookworm trixie
           COMPONENTS: rpi
           ARCHS: armhf arm64
         run: |
@@ -67,7 +67,7 @@ jobs:
 
           # generate repo
           apt-ftparchive generate apt-ftparchive.conf
-          
+
           # generate signed & unsigned Release files
           for dist in $DISTS; do
             apt-ftparchive -c $dist.conf release $repo/$dist > $repo/$dist/Release
