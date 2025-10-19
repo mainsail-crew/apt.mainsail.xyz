@@ -1,0 +1,118 @@
+name: Update to Latest Packages
+on:
+  schedule:
+    - cron: '13 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  download-latest:
+    runs-on: ubuntu-latest
+    outputs:
+      downloaded: ${{ steps.package_downloaded.outputs.package_downloaded }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - repo: mainsail-crew/spyglass
+            pkgname: mainsail-spyglass
+          - repo: mryel00/camera-streamer
+            pkgname: mainsail-camera-streamer
+          - repo: mryel00/ustreamer-packaging
+            pkgname: mainsail-ustreamer
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Get Version
+        id: get_version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          latest_tag=$(gh release view -R "${{ matrix.repo }}" --json tagName -q .tagName)
+          echo "latest_version=${latest_tag#v}" >> $GITHUB_OUTPUT
+          local_tag=$(ls -t ./pool/*/*/"${{ matrix.pkgname }}"*.deb | head -1 | cut -d '_' -f 2 | sed 's/\.[^.]*$//')
+          echo "local_version=${local_tag}" >> $GITHUB_OUTPUT
+
+      - name: Download .deb
+        id: download
+        if: steps.get_version.outputs.latest_version != steps.get_version.outputs.local_version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download -R "${{ matrix.repo }}" -p *.deb -D tmp
+
+      - name: Upload debs
+        if: steps.download.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pkgname }}
+          path: ./tmp/*
+
+      - name: Add package to output
+        if: steps.download.outcome == 'success'
+        id: package_downloaded
+        run: echo "package_downloaded=${{ matrix.pkgname }}" >> $GITHUB_OUTPUT
+
+  update-repo:
+    runs-on: ubuntu-latest
+    needs: download-latest
+    if: needs.download-latest.outputs.downloaded != ''
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download all Artifacts
+        uses: actions/download-artifact@v5
+        with:
+          path: ./tmp/
+
+      - name: Sort packages
+        run: |
+          for file in $(find ./tmp -type f -name "*.deb"); do
+            package="${file%%_*}"
+            variant="${package##*-}"
+            distro_part=$(echo "${file}" | cut -d '_' -f 2)
+            distro="${distro_part##*.}"
+            arch_part="${file##*_}"
+            arch="${arch_part%.deb}"
+
+            if [[ "${variant}" == "dbgsym" ]]; then
+              continue
+            fi
+
+            if [[ "${package}" == *"spyglass"* || "${variant}" == "raspi" ]]; then
+              variant="rpi"
+            else
+              variant="generic"
+            fi
+
+            path="pool/${distro}/${variant}"
+            mkdir -p "${path}"
+            mv "${file}" "${path}"
+          done
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config pull.rebase true
+
+          git add pool/
+
+          git commit -m "Automatic update for packages"
+
+          git push
+
+  build-pages:
+    needs: update-repo
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Trigger Build Pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run build-pages.yml -R mainsail-crew/apt.mainsail.xyz
