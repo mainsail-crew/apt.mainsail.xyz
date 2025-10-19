@@ -17,23 +17,26 @@
 
 <code>
     curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/mainsail.gpg > /dev/null<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-bullseye-rpi.list"<br>
+    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-debian-11-rpi.list"<br>
     sudo apt update<br>
 </code>
 
-<h3>RaspberryPi OS/MainsailOS - Bookworm</h3>
+<h3>RaspberryPi OS/MainsailOS - Bookworm and later</h3>
 
 <code>
+    version_id=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | cut -d'"' -f2)
     curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /usr/share/keyrings/mainsail.gpg > /dev/null<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-12-rpi.sources"<br>
+    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-${version_id}-rpi.sources"<br>
     sudo apt update<br>
 </code>
 
-<h3>RaspberryPi OS/MainsailOS - Trixie</h3>
+<h3>Other Debian - Bookworm and later</h3>
 
 <code>
+    id=$(grep '^ID=' /etc/os-release | cut -d'=' -f2 | cut -d'"' -f2)
+    version_id=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | cut -d'"' -f2)
     curl -s --compressed "https://apt.mainsail.xyz/mainsail.gpg.key" | gpg --dearmor | sudo tee /usr/share/keyrings/mainsail.gpg > /dev/null<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-13-rpi.sources"<br>
+    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-${id}-${version_id}-generic.sources"<br>
     sudo apt update<br>
 </code>
 
