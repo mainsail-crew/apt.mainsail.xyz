@@ -51,8 +51,8 @@ jobs:
       - name: Generate repository files
         env:
           DISTS: bullseye bookworm trixie
-          COMPONENTS: rpi
-          ARCHS: armhf arm64
+          COMPONENTS: rpi generic
+          ARCHS: armhf arm64 amd64
         run: |
           repo="public/debian/dists"
 
