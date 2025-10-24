@@ -30,8 +30,10 @@ jobs:
         run: |
           latest_tag=$(gh release view -R "${{ matrix.repo }}" --json tagName -q .tagName)
           echo "latest_version=${latest_tag#v}" >> $GITHUB_OUTPUT
+          echo "latest_version=${latest_tag#v}"
           local_tag=$(ls -t ./pool/*/*/"${{ matrix.pkgname }}"*.deb | head -1 | cut -d '_' -f 2 | sed 's/\.[^.]*$//')
           echo "local_version=${local_tag}" >> $GITHUB_OUTPUT
+          echo "local_version=${local_tag}"
 
       - name: Download .deb
         id: download
