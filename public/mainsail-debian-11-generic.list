@@ -1,1 +1,1 @@
-deb https://apt.mainsail.xyz/debian bullseye generic
+deb [signed-by=/etc/apt/keyrings/mainsail.asc] https://apt.mainsail.xyz/debian bullseye generic

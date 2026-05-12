@@ -2,4 +2,4 @@ Types: deb
 URIs: https://apt.mainsail.xyz/debian/
 Suites: bookworm
 Components: generic
-Signed-By: /etc/apt/keyrings/mainsail.gpg
+Signed-By: /etc/apt/keyrings/mainsail.asc
