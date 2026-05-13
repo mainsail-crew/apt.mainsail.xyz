@@ -2,4 +2,4 @@ Types: deb
 URIs: https://apt.mainsail.xyz/debian/
 Suites: trixie
 Components: generic
-Signed-By: /usr/share/keyrings/mainsail.gpg
+Signed-By: /etc/apt/keyrings/mainsail.asc
