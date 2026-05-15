@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure GPG key
         env:
@@ -32,12 +32,12 @@ jobs:
           sudo apt-get -y install apt-utils
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - name: Cache apt-ftparchive db
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: cache
           key: ${{ runner.os }}-apt-ftparchive
@@ -85,7 +85,7 @@ jobs:
           apindex debian
 
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./public
 
@@ -101,4 +101,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
