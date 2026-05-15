@@ -16,8 +16,8 @@
 <h3>RaspberryPi OS/MainsailOS - Bullseye</h3>
 
 <code>
-    sudo curl -s --compressed -o /etc/apt/trusted.gpg.d/mainsail.asc "https://apt.mainsail.xyz/mainsail.gpg.key"<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-debian-11-rpi.list"<br>
+    sudo curl -s --compressed --fail -o /etc/apt/trusted.gpg.d/mainsail.asc "https://apt.mainsail.xyz/mainsail.gpg.key"<br>
+    sudo curl -s --compressed --fail -o /etc/apt/sources.list.d/mainsail.list "https://apt.mainsail.xyz/mainsail-debian-11-rpi.list"<br>
     sudo apt update<br>
 </code>
 
@@ -25,8 +25,8 @@
 
 <code>
     version_id=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | cut -d'"' -f2)<br>
-    sudo curl -s --compressed -o /etc/apt/keyrings/mainsail.asc "https://apt.mainsail.xyz/mainsail.gpg.key"<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-${version_id}-rpi.sources"<br>
+    sudo curl -s --compressed --fail -o /etc/apt/keyrings/mainsail.asc "https://apt.mainsail.xyz/mainsail.gpg.key"<br>
+    sudo curl -s --compressed --fail -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-debian-${version_id}-rpi.sources"<br>
     sudo apt update<br>
 </code>
 
@@ -35,8 +35,8 @@
 <code>
     id=$(grep '^ID=' /etc/os-release | cut -d'=' -f2 | cut -d'"' -f2)<br>
     version_id=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2 | cut -d'"' -f2)<br>
-    sudo curl -s --compressed -o /etc/apt/keyrings/mainsail.asc "https://apt.mainsail.xyz/mainsail.gpg.key"<br>
-    sudo curl -s --compressed -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-${id}-${version_id}-generic.sources"<br>
+    sudo curl -s --compressed --fail -o /etc/apt/keyrings/mainsail.asc "https://apt.mainsail.xyz/mainsail.gpg.key"<br>
+    sudo curl -s --compressed --fail -o /etc/apt/sources.list.d/mainsail.sources "https://apt.mainsail.xyz/mainsail-${id}-${version_id}-generic.sources"<br>
     sudo apt update<br>
 </code>
 
